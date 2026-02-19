@@ -19,7 +19,16 @@ namespace HybridAStar
     {
         Motion Clone() const
         {
-            return Motion{.state = state, .action = action, .cost = cost};
+            return Motion{.state =
+                              [this]()
+                          {
+                              State newState;
+                              newState.setXY(state.getX(), state.getY());
+                              newState.setYaw(state.getYaw());
+                              return newState;
+                          }(),
+                          .action = action,
+                          .cost = cost};
         }
 
         State state;
